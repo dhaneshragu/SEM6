@@ -1,12 +1,12 @@
 ;-------------------;
 ; By:   UJWAL KUMAR ;
 ;       200101100   ;
-;-----------------------------------------------------------;
-; Instruction to assemble and run:                          ;
-;   $ nasm -felf64 200101100q4.asm              (Assemble)  ;
-;   $ gcc 200101100q4.o -no-pie -o 200101100q4  (Link)      ;
-;   $ ./200101100q4                             (run)       ;
-;-----------------------------------------------------------;
+;-------------------------------------------------------------------;
+; Instruction to assemble and run:                                  ;
+;   $ nasm -felf64 200101100_A_q4.asm                   (Assemble)  ;
+;   $ gcc 200101100_A_q4.o -no-pie -o 200101100_A_q4    (Link)      ;
+;   $ ./200101100_A_q4                                  (run)       ;
+;-------------------------------------------------------------------;
 
 section .data                                               
     ; Declaration of initialized variables
@@ -81,12 +81,12 @@ section .text
     ;--------------------------;
     global main
     main:
-
-        .ask_op:  ; Ask for user operation
-            push    rbx                     ; Align with 16 bit boundary on 
+        push    rbx                         ; Align with 16 byte boundary on 
                                             ; the stack according to linux
                                             ; calling conventions
-            mov     rax, 0                  ; Number of vector arguments for printf
+        xor     rax, rax                    ; 0 vector arguments for printf
+        
+        .ask_op:  ; Ask for user operation
             mov     rdi, op_msg             ; arg1 for printf
             call    printf
 
@@ -116,7 +116,7 @@ section .text
         cvtss2sd    xmm0, xmm0              ; convert xmm0 to double for printf to work
             call    printf                  ; print result_msg along with xmm0 as arg1
 
-            pop     rbx                     ; pop the earlier register we pushed to
+        pop     rbx                         ; pop the earlier register we pushed to
                                             ; align with the 16-bit boundary
 
         ret                                 ; return from main into the c _start code
